@@ -1,8 +1,9 @@
 import json
 from pathlib import Path
-from turtle import done
 import requests
-SOURCE_URL = "https://api.open-meteo.com/v1/forecast?latitude=43.65&longitude=-79.38&hourly=temperature_2m,precipitation&past_days=7&forecast_days=0&timezone=America/Toronto"
+
+SOURCE_URL = "https://api.tvmaze.com/shows?page=0"
+# OUTPUT = Path("/Users/adilochan25/VSProjects/aggregating-records/summary.json")
 OUTPUT = Path("summary.json")
 
 def fetch_records(url):
@@ -15,9 +16,11 @@ def shows_per_genre(records): # one function per aggregation,
     # named for what it computes
     counts = {}
     for record in records:
-        genre = record["genre"]
-        dont, total = counts.get(genre, (0, 0))
-        counts[genre] = (done + int(genre in record["tags"]), total + 1)
+        genres = record["genres"]
+
+        for genre in genres:
+            counts[genre] = counts.get(genre, 0) + 1
+
     return counts
     # return {"comedy": 0, "drama": 0, "action": 0}
 
@@ -36,9 +39,9 @@ def write_summary(summary, path):
 
 def main():
     records = fetch_records(SOURCE_URL)
-    print(records) 
-    summary = build_summary(records)
-    write_summary(summary, OUTPUT)
+    print(records[0].keys())
+    # summary = build_summary(records)
+    # write_summary(summary, OUTPUT)
 
 if __name__ == "__main__":
     main()
