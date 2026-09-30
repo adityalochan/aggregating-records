@@ -3,7 +3,6 @@ from pathlib import Path
 import requests
 
 SOURCE_URL = "https://api.tvmaze.com/shows?page=0"
-# OUTPUT = Path("/Users/adilochan25/VSProjects/aggregating-records/summary.json")
 OUTPUT = Path("summary.json")
 
 def fetch_records(url):
@@ -20,16 +19,31 @@ def shows_per_genre(records): # one function per aggregation,
 
         for genre in genres:
             counts[genre] = counts.get(genre, 0) + 1
-
     return counts
-    # return {"comedy": 0, "drama": 0, "action": 0}
+
+def total_shows(records):
+    return len(records)
+
+def average_rating_language(records):
+    sum , count = 0, 0
+     
+    for record in records:
+        rating = record["rating"]["average"]
+
+        if rating is not None:
+            count += 1
+            sum += rating
+    return sum / (len(records) - count)   
+
 
 def build_summary(records):
     # Combine the aggregations into one dict ready to write.
-    return {
-        "shows_per_genre": shows_per_genre(records),
-        "total_shows": len(records),
-    }
+    summary = {}
+    summary["shows_per_genre"] = shows_per_genre(records)
+    summary["total_shows"] = total_shows(records)
+    summary["average_rating_language"] = average_rating_language(records)
+    return summary
+
 
 def write_summary(summary, path):
     # Write the summary to a JSON file
@@ -39,9 +53,8 @@ def write_summary(summary, path):
 
 def main():
     records = fetch_records(SOURCE_URL)
-    print(records[0].keys())
-    # summary = build_summary(records)
-    # write_summary(summary, OUTPUT)
+    summary = build_summary(records)
+    write_summary(summary, OUTPUT)
 
 if __name__ == "__main__":
     main()
