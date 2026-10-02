@@ -10,7 +10,7 @@ def fetch_records(url):
     try: 
         response = requests.get(url, timeout=10)
         response.raise_for_status()
-        response.json()
+        return response.json()
     except requests.RequestException as e:
         print(f"An error occurred while trying to fetch records: {e}")
         return []
