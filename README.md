@@ -6,12 +6,16 @@ https://api.tvmaze.com/shows?page=0
 Each record represents a TV show and contains information such as the show's name, language, genres, rating,
 
 ## Setup
+'''bash
 python -m venv .venv
 source .venv/bin/activate # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+'''
 
 ## Run
+'''bash
 python records.py
+'''
 
 ## Example output
 {
@@ -39,4 +43,5 @@ Comedy was the second most popular genre with 66 shows
 - A **dictionary** is used to count shows by genre because each genre can be used as a key with its count as the value.
 
 ## Known limitations
-Results may change when the data returned by TVMaze changes
+-Results may change when the data returned by TVMaze changes
+-the program depends on the TVMaze API to be available and requires an internet connection

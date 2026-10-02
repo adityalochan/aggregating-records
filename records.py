@@ -16,8 +16,7 @@ def fetch_records(url):
         return []
 
 def shows_per_genre(records): 
-    """one function per aggregation """
-    """named for what it computes"""
+    """Returns the number of shows belonging to each genre """
     counts = {}
     for record in records:
         genres = record["genres"]
@@ -30,15 +29,15 @@ def total_shows(records):
     return len(records)
 
 def average_rating_language(records):
-    sum , count = 0, 0
+    total , count = 0, 0
      
     for record in records:
         rating = record["rating"]["average"]
 
         if rating is not None:
             count += 1
-            sum += rating
-    return sum / count  
+            total += rating
+    return total / count  
 
 
 def build_summary(records):
