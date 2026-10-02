@@ -9,11 +9,11 @@ def fetch_records(url):
     """Download the records and return them as Python objects."""
     try: 
         response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        response.json()
     except requests.RequestException as e:
         print(f"An error occurred while trying to fetch records: {e}")
         return []
-    response.raise_for_status()
-    return response.json()
 
 def shows_per_genre(records): 
     """one function per aggregation """
@@ -57,6 +57,10 @@ def write_summary(summary,path):
 
 def main():
     records = fetch_records(SOURCE_URL)
+
+    if not records:
+        print("No records were downloaded")
+        return
     summary = build_summary(records)
     write_summary(summary, OUTPUT)
 
