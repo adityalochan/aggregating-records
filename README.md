@@ -40,6 +40,7 @@ Comedy was the second most popular genre with 66 shows
 
 
 ## Design choices
+- A **list** is used to store TV show records returned by API because the dataset contains multiple records that need to be processed in synchronously
 - A **dictionary** is used to count shows by genre because each genre can be used as a key with its count as the value.
 
 ## Known limitations
